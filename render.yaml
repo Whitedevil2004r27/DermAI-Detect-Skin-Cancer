@@ -1,19 +1,5 @@
 services:
-  # 🩺 Backend API (FastAPI)
-  - type: web
-    name: dermai-api
-    env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
-    rootDir: backend
-    plan: free # Note: 512MB RAM limit may cause OOM for EfficientNet-B7
-    envVars:
-      - key: PORT
-        value: 10000
-      - key: PYTHON_VERSION
-        value: 3.11.0
-
-  # 🖥️ Frontend Client (Next.js)
+  # 🖥️ Frontend Client (Next.js) - Render Free Tier
   - type: web
     name: dermai-web
     env: node
@@ -23,7 +9,5 @@ services:
     plan: free
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          name: dermai-api
-          type: web
-          property: host
+        # PASTE YOUR HUGGING FACE SPACE URL HERE (e.g. https://user-name-dermai.hf.space)
+        value: "https://huggingface.co/spaces/" 
