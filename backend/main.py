@@ -1,5 +1,5 @@
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from routes import predict, heatmap, health
 from config import settings
@@ -40,6 +40,11 @@ app.include_router(predict.router, prefix="/api/predict", tags=["Prediction"])
 app.include_router(heatmap.router, prefix="/api/heatmap", tags=["Explainability"])
 app.include_router(health.router, prefix="/health", tags=["System"])
 
+# Mount Static Files for the Frontend (Unified Deployment)
+# This will serve the 'out' folder built by Next.js
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Optional: Serve the frontend on the root
 @app.get("/")
 async def root():
     return {
