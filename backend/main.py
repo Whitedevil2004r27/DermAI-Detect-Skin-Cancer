@@ -48,5 +48,7 @@ async def root():
         "status": "active"
     }
 
-# Application is designed to be run via:
-# python -m uvicorn main:app --reload --host 127.0.0.1 --port 8001
+if __name__ == "__main__":
+    import uvicorn
+    # Final production-ready entry point for local execution
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
