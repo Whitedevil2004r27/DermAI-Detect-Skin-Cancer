@@ -6,7 +6,7 @@ services:
     buildCommand: "pip install -r requirements.txt"
     startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
     rootDir: backend
-    plan: pro # Recommended for AI models (2GB RAM)
+    plan: free # Note: 512MB RAM limit may cause OOM for EfficientNet-B7
     envVars:
       - key: PORT
         value: 10000
@@ -20,7 +20,7 @@ services:
     buildCommand: "npm install && npm run build"
     startCommand: "npm run start"
     rootDir: frontend
-    plan: starter
+    plan: free
     envVars:
       - key: NEXT_PUBLIC_API_URL
         fromService:
