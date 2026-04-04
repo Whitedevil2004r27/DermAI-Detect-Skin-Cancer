@@ -2,11 +2,10 @@ fastapi
 uvicorn
 torch
 torchvision
-Pillow
 grad-cam
-numpy
+opencv-python-headless
 pydantic-settings
-python-dotenv
+pandas
 python-multipart
-albumentations
 scikit-learn
+Pillow

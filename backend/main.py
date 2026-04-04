@@ -50,5 +50,9 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    # Final production-ready entry point for local execution
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
+    import os
+    
+    # Dynamic port binding for cloud platforms (e.g., Railway, HF, Heroku)
+    port = int(os.getenv("PORT", 8000))
+    
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
