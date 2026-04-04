@@ -1,3 +1,14 @@
+---
+title: DermAI Full System
+emoji: 🧬
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+---
+
 # 🧬 DermAI — Skin Cancer Detection System
 
 DermAI is an end-to-end medical AI platform designed to assist in the early detection of skin lesions. 

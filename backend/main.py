@@ -57,7 +57,7 @@ if __name__ == "__main__":
     import uvicorn
     import os
     
-    # Dynamic port binding for cloud platforms (e.g., Railway, HF, Heroku)
-    port = int(os.getenv("PORT", 8000))
+    # Dynamic port binding for cloud platforms (Hugging Face default 7860)
+    port = int(os.getenv("PORT", 7860))
     
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
