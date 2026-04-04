@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #080B14;
+  --color-bg-secondary: #0F1629;
+  --color-bg-card: #111827;
+  --color-bg-hover: #151D35;
+  
+  --color-accent-green: #00E5A0;
+  --color-accent-purple: #6C63FF;
+  --color-accent-red: #FF4D6D;
+  --color-accent-orange: #FF8C42;
+  --color-accent-yellow: #FFD166;
+  --color-accent-blue: #4CC9F0;
+  
+  --color-text-primary: #E8EDF5;
+  --color-text-secondary: #8B92A5;
+  --color-text-muted: #4B5268;
+  
+  --color-border-subtle: rgba(255, 255, 255, 0.07);
+  --color-border-visible: rgba(255, 255, 255, 0.15);
+  
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+}
+
+:root {
+  --background: #080B14;
+  --foreground: #E8EDF5;
+}
+
+.dark {
+  --background: #080B14;
+  --foreground: #E8EDF5;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .glass-card {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .text-glow-green {
+    text-shadow: 0 0 10px rgba(0, 229, 160, 0.4);
+  }
+  
+  .glow-border-green {
+    box-shadow: 0 0 15px rgba(0, 229, 160, 0.1);
+    border-color: rgba(0, 229, 160, 0.3);
+  }
+}
+
+/* Animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
