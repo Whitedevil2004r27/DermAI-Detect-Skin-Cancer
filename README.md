@@ -104,6 +104,29 @@ and provide visual explainability through Grad-CAM heatmaps.
 | Mean ROC-AUC        | 0.962      |
 | F1 Score (Weighted) | 0.912      |
 
+## 🚀 Deployment Guide (100% Free)
+
+This project is optimized for a decoupled deployment: **Next.js on Vercel** and **FastAPI on Hugging Face Spaces**.
+
+### 1. Backend: Hugging Face Spaces (FREE 16GB RAM)
+1.  Go to [Hugging Face Spaces](https://huggingface.co/new-space).
+2.  **Name**: `dermai-api`.
+3.  **SDK**: Choose **Docker**.
+4.  **Hardware**: Choose **CPU Basic** (16GB RAM is free).
+5.  **Visibility**: Public (recommended for free tier).
+6.  Upload all project files (The `Dockerfile` in the root will automatically build the backend).
+7.  Once deployed, copy your Space URL (e.g., `https://user-dermai.hf.space`).
+
+### 2. Frontend: Vercel (FREE Next.js Hosting)
+1.  Push your code to **GitHub**.
+2.  Go to [Vercel](https://vercel.com/new).
+3.  Import your repository.
+4.  **Framework Preset**: Next.js.
+5.  **Root Directory**: `frontend`.
+6.  **Environment Variables**:
+    - Add `NEXT_PUBLIC_API_URL`: `[YOUR_HUGGING_FACE_SPACE_URL]` (e.g. `https://ravik-dermai-api.hf.space`)
+7.  Click **Deploy**.
+
 ---
 
 ## ⚠️ Medical Disclaimer

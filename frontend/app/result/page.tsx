@@ -12,12 +12,15 @@ import {
   ArrowLeft, 
   RotateCcw, 
   Download, 
-  FileText,
   Share2,
-  AlertCircle
+  AlertCircle,
+  ClipboardCheck
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getHeatmap } from "@/lib/api";
+import { generatePDF } from "@/components/ReportGenerator";
+import ABCDEModal from "@/components/ABCDEModal";
+import { useHistory } from "@/hooks/useHistory";
 
 export default function ResultPage() {
   const router = useRouter();
@@ -26,6 +29,10 @@ export default function ResultPage() {
   const [heatmapSrc, setHeatmapSrc] = useState<string | null>(null);
   const [isHeatmapLoading, setIsHeatmapLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [caseId, setCaseId] = useState("");
+  const [isAuditOpen, setIsAuditOpen] = useState(false);
+  const [auditScore, setAuditScore] = useState<number | null>(null);
+  const { addToHistory } = useHistory();
 
   useEffect(() => {
     const storedPrediction = sessionStorage.getItem("last_prediction");
@@ -39,6 +46,16 @@ export default function ResultPage() {
     const parsedPrediction = JSON.parse(storedPrediction) as PredictionResponse;
     setPrediction(parsedPrediction);
     setImageSrc(storedImage);
+
+    // Generate or retrieve Case ID
+    let currentCaseId = sessionStorage.getItem("current_case_id");
+    if (!currentCaseId) {
+      currentCaseId = Math.random().toString(36).substring(7).toUpperCase();
+      sessionStorage.setItem("current_case_id", currentCaseId);
+      // Auto-save to history on first load
+      addToHistory(parsedPrediction, storedImage);
+    }
+    setCaseId(currentCaseId);
 
     const loadHeatmap = async () => {
       try {
@@ -59,6 +76,12 @@ export default function ResultPage() {
     loadHeatmap();
   }, [router]);
 
+  const handleExport = async () => {
+    if (prediction) {
+      await generatePDF("diagnostic-content", prediction, caseId);
+    }
+  };
+
   if (!prediction || !imageSrc) return null;
 
   const info = CANCER_INFO[prediction.predicted_class];
@@ -72,7 +95,10 @@ export default function ResultPage() {
       >
         <div className="flex items-center space-x-4">
           <button
-            onClick={() => router.push("/")}
+            onClick={() => {
+              sessionStorage.removeItem("current_case_id");
+              router.push("/");
+            }}
             className="group flex items-center space-x-2 text-xs font-black uppercase tracking-widest text-text-muted transition-colors hover:text-accent-green"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -80,13 +106,16 @@ export default function ResultPage() {
           </button>
           <div className="h-4 w-px bg-border-subtle" />
           <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-muted">
-             CASE_ID: {Math.random().toString(36).substring(7).toUpperCase()}
+             CASE_ID: {caseId}
           </span>
         </div>
 
         <div className="flex items-center space-x-3">
-          <button className="flex items-center space-x-2 rounded-xl border border-border-visible bg-bg-card px-5 py-2.5 text-[10px] font-black uppercase tracking-widest text-text-secondary transition-all hover:bg-bg-hover hover:-translate-y-0.5">
-            <Download className="h-4 w-4" />
+          <button 
+            onClick={handleExport}
+            className="flex items-center space-x-2 rounded-xl border border-border-visible bg-bg-card px-5 py-2.5 text-[10px] font-black uppercase tracking-widest text-text-secondary transition-all hover:bg-bg-hover hover:-translate-y-0.5"
+          >
+            <Download className="h-4 w-4 text-accent-green" />
             <span>Export Report</span>
           </button>
           <div className="h-8 w-px bg-border-subtle hidden sm:block" />
@@ -97,7 +126,7 @@ export default function ResultPage() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <div id="diagnostic-content" className="grid grid-cols-1 gap-12 lg:grid-cols-12 bg-bg-primary p-4 rounded-[2rem]">
         <div className="flex flex-col space-y-8 lg:col-span-5">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -124,16 +153,33 @@ export default function ResultPage() {
           </motion.div>
 
           <div className="flex flex-col space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted px-2">Clinical Tools</h4>
+            <div className="flex items-center justify-between px-2">
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Clinical Tools</h4>
+              {auditScore !== null && (
+                <div className="flex items-center space-x-2 rounded-full bg-accent-blue/10 px-3 py-1 text-[10px] font-bold text-accent-blue border border-accent-blue/20">
+                  <ClipboardCheck className="h-3 w-3" />
+                  <span>Audit: {auditScore}/5</span>
+                </div>
+              )}
+            </div>
             <div className="grid grid-cols-2 gap-4">
-              <button className="relative overflow-hidden flex flex-col items-center justify-center p-8 rounded-3xl border border-border-subtle bg-bg-card/50 hover:bg-bg-hover transition-all group">
-                <FileText className="h-6 w-6 text-accent-purple mb-3 group-hover:scale-110 transition-transform" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-white">Full History</span>
+              <button 
+                onClick={() => {
+                  sessionStorage.removeItem("current_case_id");
+                  router.push("/");
+                }}
+                className="relative overflow-hidden flex flex-col items-center justify-center p-8 rounded-3xl border border-border-subtle bg-bg-card/50 hover:bg-bg-hover transition-all group"
+              >
+                <RotateCcw className="h-6 w-6 text-accent-purple mb-3 group-hover:scale-110 transition-transform" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-white">Restart</span>
                 <div className="absolute inset-0 bg-accent-purple/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
-              <button className="relative overflow-hidden flex flex-col items-center justify-center p-8 rounded-3xl border border-border-subtle bg-bg-card/50 hover:bg-bg-hover transition-all group">
-                <AlertCircle className="h-6 w-6 text-accent-orange mb-3 group-hover:scale-110 transition-transform" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-white">Risk Audit</span>
+              <button 
+                onClick={() => setIsAuditOpen(true)}
+                className="relative overflow-hidden flex flex-col items-center justify-center p-8 rounded-3xl border border-border-subtle bg-bg-card/50 hover:bg-bg-hover transition-all group"
+              >
+                <AlertCircle className={`h-6 w-6 mb-3 group-hover:scale-110 transition-transform ${auditScore !== null ? 'text-accent-green' : 'text-accent-orange'}`} />
+                <span className="text-[10px] font-black uppercase tracking-widest text-white">Clinical Audit</span>
                 <div className="absolute inset-0 bg-accent-orange/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
             </div>
@@ -184,13 +230,22 @@ export default function ResultPage() {
            This result is not a final or medical diagnosis. A full bioptical evaluation by a board-certified dermatologist remains the clinical standard.
          </p>
          <button 
-           onClick={() => router.push("/")}
+           onClick={() => {
+             sessionStorage.removeItem("current_case_id");
+             router.push("/");
+           }}
            className="mt-10 inline-flex items-center space-x-3 text-xs font-black uppercase tracking-widest text-accent-green hover:text-white transition-colors group"
          >
            <RotateCcw className="h-4 w-4 transition-transform group-hover:rotate-180 duration-500" />
            <span>Restart Pipeline</span>
          </button>
       </div>
+
+      <ABCDEModal 
+        isOpen={isAuditOpen} 
+        onClose={() => setIsAuditOpen(false)} 
+        onComplete={(score) => setAuditScore(score)}
+      />
     </div>
   );
 }

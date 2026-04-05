@@ -13,14 +13,20 @@ import {
   Database,
   BrainCircuit,
   Microscope,
-  Search
+  Search,
+  Camera,
+  ClipboardCheck
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CameraUI from "@/components/CameraUI";
+import ABCDEModal from "@/components/ABCDEModal";
 
 export default function HomePage() {
   const router = useRouter();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [isAuditOpen, setIsAuditOpen] = useState(false);
 
   const handleUpload = async (input: File | string) => {
     setIsAnalyzing(true);
@@ -31,7 +37,7 @@ export default function HomePage() {
       if (typeof input === "string") {
         const response = await fetch(input);
         const blob = await response.blob();
-        file = new File([blob], "sample.jpg", { type: "image/jpeg" });
+        file = new File([blob], "lesion.jpg", { type: "image/jpeg" });
       } else {
         file = input;
       }
@@ -90,6 +96,28 @@ export default function HomePage() {
             Identify pigmented skin lesions with institutional accuracy. Our EfficientNet-B7 engine 
             provides rapid classification and XAI heatmaps for diagnostic transparency.
           </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="mt-10 flex flex-wrap items-center justify-center gap-4"
+          >
+            <button 
+              onClick={() => setIsCameraOpen(true)}
+              className="flex items-center space-x-2 rounded-2xl bg-accent-green px-8 py-4 text-xs font-black uppercase tracking-widest text-black shadow-xl shadow-accent-green/10 hover:scale-105 transition-transform active:scale-95"
+            >
+              <Camera className="h-4 w-4" />
+              <span>Free Live Scan</span>
+            </button>
+            <button 
+              onClick={() => setIsAuditOpen(true)}
+              className="flex items-center space-x-2 rounded-2xl border border-border-visible bg-bg-card/50 px-8 py-4 text-xs font-black uppercase tracking-widest text-white backdrop-blur-lg hover:bg-bg-hover transition-colors"
+            >
+              <ClipboardCheck className="h-4 w-4 text-accent-blue" />
+              <span>Symptom Audit</span>
+            </button>
+          </motion.div>
         </div>
 
         <div className="mx-auto mt-20 max-w-3xl">
@@ -210,6 +238,21 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <CameraUI 
+        isOpen={isCameraOpen} 
+        onClose={() => setIsCameraOpen(false)} 
+        onCapture={(img) => handleUpload(img)} 
+      />
+
+      <ABCDEModal 
+        isOpen={isAuditOpen} 
+        onClose={() => setIsAuditOpen(false)} 
+        onComplete={(score) => {
+          // We can show a toast or just open the history
+          setIsAuditOpen(false);
+        }}
+      />
     </div>
   );
 }

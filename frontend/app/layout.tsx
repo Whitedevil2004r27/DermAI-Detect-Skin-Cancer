@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   description: "Detect skin lesions early with our AI-powered diagnostic assistant using EfficientNet-B7.",
 };
 
+import { Providers } from "@/app/providers";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,13 +39,15 @@ export default function RootLayout({
           dmMono.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
-          <div className="relative flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
+            <div className="relative flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
