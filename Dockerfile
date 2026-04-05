@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN useradd -m -u 1000 user
 WORKDIR /app
 
-# Install system dependencies (OpenCV/Torch)
+# Install system dependencies (OpenCV/Torch/NextAuth)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libgl1 \
@@ -41,16 +41,22 @@ RUN pip install --no-cache-dir -U pip && \
 # Copy backend source
 COPY --chown=user backend/ ./backend/
 
-# Copy frontend source and build
-COPY --chown=user frontend/ ./frontend/
-# Ensure the .next folder from builder is preserved if we were doing static, 
-# but here we just copy the whole frontend and will run 'npm run start'
+# Copy frontend build from Stage 1
+COPY --from=builder --chown=user /app/frontend/.next ./frontend/.next
+COPY --from=builder --chown=user /app/frontend/public ./frontend/public
+COPY --from=builder --chown=user /app/frontend/package*.json ./frontend/
+COPY --from=builder --chown=user /app/frontend/next.config.ts ./frontend/
+
+# Reinstall production dependencies in the final container
+WORKDIR /app/frontend
+RUN npm install --omit=dev && cd ..
 
 # Switch to non-root user
 USER user
 ENV PATH="/home/user/.local/bin:$PATH"
 
 # Copy startup script
+WORKDIR /app
 COPY --chown=user start.sh .
 RUN chmod +x start.sh
 
