@@ -42,12 +42,17 @@ export default function ScanPage() {
         router.push(`/result/${newId}`);
       };
       reader.readAsDataURL(file);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       let errorMessage = "Analysis failed. Please ensure your image is clear and try again.";
-      if (err?.response?.data?.detail) {
-        errorMessage = err.response.data.detail;
+      
+      if (err && typeof err === "object" && "response" in err) {
+        const errorWithResponse = err as { response?: { data?: { detail?: string } } };
+        if (errorWithResponse.response?.data?.detail) {
+          errorMessage = errorWithResponse.response.data.detail;
+        }
       }
+      
       setError(errorMessage);
       setIsAnalyzing(false);
     }

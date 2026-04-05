@@ -10,7 +10,13 @@ import HistoryDrawer from "./HistoryDrawer";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 
-const navLinks = [
+interface NavLink {
+  name: string;
+  href: string;
+  isHistory?: boolean;
+}
+
+const navLinks: NavLink[] = [
   { name: "Home", href: "/" },
   { name: "Scan", href: "/scan" },
   { name: "History", href: "#", isHistory: true },
@@ -50,7 +56,7 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link: any) => (
+            {navLinks.map((link) => (
               link.isHistory ? (
                 <button
                   key={link.name}
