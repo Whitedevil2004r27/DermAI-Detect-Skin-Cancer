@@ -1,102 +1,54 @@
 ---
-title: DermAI Full System
+title: DermAI Unified System
 emoji: 🧬
 colorFrom: blue
 colorTo: green
 sdk: docker
 app_port: 7860
-pinned: false
+pinned: true
 license: mit
 ---
 
-# 🧬 DermAI — Skin Cancer Detection System
+# 🧬 DermAI — Unified Skin Cancer Detection System
 
-DermAI is an end-to-end medical AI platform designed to assist in the early detection of skin lesions. 
-Using a deep convolutional neural network (EfficientNet-B7) trained on the HAM10000 clinical dataset, 
-the system classifies dermoscopy images into 7 different skin lesion categories with high precision 
-and provide visual explainability through Grad-CAM heatmaps.
+DermAI is an institutional-grade medical AI platform for the early detection of skin lesions. This repository contains the **Unified Monolith** version of the system, designed to run both the high-performance AI backend and the premium Next.js frontend within a single high-memory container.
 
----
-
-## 🚀 Features
-
-- **High-Fidelity Classification**: Real-time prediction across 7 clinical classes.
-- **Explainable AI (XAI)**: Grad-CAM attention maps showing which regions influenced the AI's diagnosis.
-- **Premium Dashboard**: A medical-grade, dark-themed UI built with Next.js 15 and Tailwind CSS v4.
-- **Clinical Information**: Detailed clinical context for each predicted skin condition.
-- **Training Pipeline**: Full PyTorch training scripts with two-phase fine-tuning.
+Using an **EfficientNet-B7** neural network trained on the **HAM10000** dataset, DermAI provides rapid classification across 7 skin lesion categories, accompanied by **Grad-CAM heatmaps** for clinical explainability.
 
 ---
 
-## 🏗️ Architecture
+## 🚀 Key Features
 
-```text
-[Frontend: Next.js 15] <--- REST API ---> [Backend: FastAPI]
-                                             |
-                                     [Model: EfficientNet-B7]
-                                             |
-                                    [Dataset: HAM10000]
-```
+-   **⚡ Unified Monolith**: Frontend and Backend run concurrently in one environment, resolving CORS and latency issues.
+-   **🔍 Explainable AI (XAI)**: Real-time Grad-CAM maps highlight the specific pixels influencing the AI's diagnosis.
+-   **🔐 Secure Authentication**: Integrated **Google OAuth 2.0** for clinical session management.
+-   **📁 Dynamic Result History**: Each scan generates a unique Case ID with a dedicated persistent URL (`/result/[id]`).
+-   **🎨 Premium UI**: A glassmorphic, medical-grade dashboard built with **Next.js 15** and **Tailwind CSS v4**.
+-   **📄 Clinical Reports**: Auto-generation of diagnostic PDF reports for patient records.
+
+---
+
+## 🏗️ Architecture: The "Super Container"
+
+DermAI utilizes a dual-process architecture managed by a single Docker entry point:
+
+1.  **Entry Point (Port 7860)**: Next.js Frontend (Production Server).
+2.  **API Proxy (Port 8000)**: FastAPI Backend (AI Inference Engine).
+3.  **Process Manager**: `start.sh` orchestrates the simultaneous execution of both services.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Python 3.11, FastAPI, PyTorch 2.x, Torchvision, Pytorch-Grad-CAM.
-- **Frontend**: Next.js 15 (App Router), TypeScript, Tailwind CSS v4, Framer Motion, Recharts.
-- **Model**: EfficientNet-B7 (Pre-trained on ImageNet).
-- **Dataset**: [HAM10000 (Skin Cancer MNIST)](https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000).
+-   **AI Core**: Python 3.11, PyTorch 2.x, Torchvision, Pytorch-Grad-CAM.
+-   **Backend**: FastAPI (High-performance asynchronous API).
+-   **Frontend**: Next.js 15 (App Router), TypeScript, Framer Motion, Recharts.
+-   **Styling**: Tailwind CSS v4 (Modern performance-first CSS).
+-   **Auth**: NextAuth.js (Secure Google OAuth Integration).
 
 ---
 
-## 📖 Setup Instructions
-
-### 1. Prerequisites
-- Python 3.11+
-- Node.js 18+
-- CUDA-enabled GPU (optional, for faster training/inference)
-
-### 2. Model Training (Optional - Required for weights)
-1. Download the [HAM10000 dataset](https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000).
-2. Place the images and `HAM10000_metadata.csv` in `model_training/data/HAM10000/`.
-3. Install dependencies:
-   ```bash
-   cd model_training
-   pip install -r requirements.txt
-   ```
-4. Run training:
-   ```bash
-   python train.py
-   ```
-5. Copy the generated `weights/best_model.pth` to `backend/model/weights/`.
-
-### 3. Backend Setup
-1. Install dependencies:
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   ```
-2. Start the server:
-   ```bash
-   uvicorn main:app --reload
-   ```
-   *Api will be available at http://localhost:8000*
-
-### 4. Frontend Setup
-1. Install dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-2. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   *Dashboard will be available at http://localhost:3000*
-
----
-
-## 📊 Model Performance (Evaluation Results)
+## 📊 AI Model Performance
 
 | Metric              | Value      |
 |---------------------|------------|
@@ -104,33 +56,56 @@ and provide visual explainability through Grad-CAM heatmaps.
 | Mean ROC-AUC        | 0.962      |
 | F1 Score (Weighted) | 0.912      |
 
-## 🚀 Deployment Guide (100% Free)
+---
 
-This project is optimized for a decoupled deployment: **Next.js on Vercel** and **FastAPI on Hugging Face Spaces**.
+## 🚀 Deployment Guide (Hugging Face Spaces)
 
-### 1. Backend: Hugging Face Spaces (FREE 16GB RAM)
-1.  Go to [Hugging Face Spaces](https://huggingface.co/new-space).
-2.  **Name**: `dermai-api`.
-3.  **SDK**: Choose **Docker**.
-4.  **Hardware**: Choose **CPU Basic** (16GB RAM is free).
-5.  **Visibility**: Public (recommended for free tier).
-6.  Upload all project files (The `Dockerfile` in the root will automatically build the backend).
-7.  Once deployed, copy your Space URL (e.g., `https://user-dermai.hf.space`).
+This system is optimized for **Hugging Face Spaces** with at least **16GB RAM** (CPU Basic tier).
 
-### 2. Frontend: Vercel (FREE Next.js Hosting)
-1.  Push your code to **GitHub**.
-2.  Go to [Vercel](https://vercel.com/new).
-3.  Import your repository.
-4.  **Framework Preset**: Next.js.
-5.  **Root Directory**: `frontend`.
-6.  **Environment Variables**:
-    - Add `NEXT_PUBLIC_API_URL`: `[YOUR_HUGGING_FACE_SPACE_URL]` (e.g. `https://ravik-dermai-api.hf.space`)
-7.  Click **Deploy**.
+### 1. Configure Secrets
+In your Hugging Face Space **Settings > Variables and Secrets**, add the following:
+
+| Secret Key             | Description                                     |
+|------------------------|-------------------------------------------------|
+| `AUTH_GOOGLE_ID`       | Your Google Cloud OAuth Client ID               |
+| `AUTH_GOOGLE_SECRET`   | Your Google Cloud OAuth Client Secret           |
+| `NEXTAUTH_SECRET`      | A random string for session encryption          |
+| `NEXTAUTH_URL`         | Your Space URL (e.g., `https://user-space.hf.space`) |
+| `AUTH_TRUST_HOST`      | Set to `true`                                  |
+
+### 2. Push to Space
+Simply push this repository to your Hugging Face remote:
+```bash
+git remote add hf https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE_NAME
+git push hf main
+```
+
+---
+
+## 💻 Local Development
+
+### 1. Prerequisites
+- Python 3.11+
+- Node.js 18+
+
+### 2. Quick Start
+1.  **Install Frontend Deps**: `cd frontend && npm install`
+2.  **Install Backend Deps**: `cd backend && pip install -r requirements.txt`
+3.  **Run Monolith locally**:
+    ```bash
+    chmod +x start.sh
+    ./start.sh
+    ```
+    *The system will be available at http://localhost:7860 (and API at :8000)*
 
 ---
 
 ## ⚠️ Medical Disclaimer
 
 **IMPORTANT: FOR RESEARCH AND EDUCATIONAL PURPOSES ONLY.**
-This application is not a medical device. The predictions provided by DermAI are not a substitute for professional 
-medical diagnosis. Always consult a certified dermatologist for any skin abnormality.
+DermAI is a predictive tool designed to assist in clinical evaluation. It is **not** a replacement for professional medical diagnosis. A full bioptical evaluation by a board-certified dermatologist remains the clinical standard.
+
+---
+
+## 📄 License
+Distributed under the MIT License. See `LICENSE` for more information.
