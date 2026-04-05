@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import MobileNavbar from "@/components/MobileNavbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -41,10 +42,11 @@ export default function RootLayout({
       >
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
-            <div className="relative flex min-h-screen flex-col">
+            <div className="relative flex min-h-screen flex-col pb-24 md:pb-0">
               <Navbar />
               <main className="flex-1">{children}</main>
               <Footer />
+              <MobileNavbar />
             </div>
           </ThemeProvider>
         </Providers>
