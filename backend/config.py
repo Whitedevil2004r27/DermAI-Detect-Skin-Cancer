@@ -12,8 +12,8 @@ class Settings(BaseSettings):
     # API Settings
     MAX_FILE_SIZE_MB: int = 10
     CORS_ORIGINS: List[str] = [
-        "*", 
         "https://derm-ai-detect-skin-cancer.vercel.app",
+        "https://derm-ai-detect-skin-cancer-git-main-whitedevil2004r27s-projects.vercel.app",
         "http://localhost:3000"
     ]
     
