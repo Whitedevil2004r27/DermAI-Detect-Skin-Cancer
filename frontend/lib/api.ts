@@ -16,6 +16,14 @@ const apiClient = axios.create({
   },
 });
 
+interface AxiosErrorLike {
+  response?: {
+    status?: number;
+    data?: unknown;
+  };
+  message?: string;
+}
+
 export const predictImage = async (file: File): Promise<PredictionResponse> => {
   const formData = new FormData();
   formData.append("file", file);
@@ -23,7 +31,7 @@ export const predictImage = async (file: File): Promise<PredictionResponse> => {
     const response = await apiClient.post<PredictionResponse>("/api/predict", formData);
     return response.data;
   } catch (error: unknown) {
-    const err = error as any;
+    const err = error as AxiosErrorLike;
     console.error("[DermAI] Prediction Error:", err.response?.status, err.message, err.response?.data);
     throw error;
   }
@@ -40,7 +48,7 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
     });
     return URL.createObjectURL(response.data);
   } catch (error: unknown) {
-    const err = error as any;
+    const err = error as AxiosErrorLike;
     console.error("[DermAI] Heatmap Error:", err.response?.status, err.message);
     throw error;
   }
@@ -51,7 +59,7 @@ export const checkHealth = async () => {
     const response = await axios.get(`${API_BASE}/health`);
     return response.data;
   } catch (error: unknown) {
-    const err = error as any;
+    const err = error as AxiosErrorLike;
     console.error("[DermAI] Health Check Failed:", err.message);
     return { status: "offline" };
   }
