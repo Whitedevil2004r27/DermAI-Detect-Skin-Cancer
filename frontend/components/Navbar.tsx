@@ -12,8 +12,8 @@ import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Result", href: "/result" },
-  { name: "How It Works", href: "/how-it-works" },
+  { name: "Scan", href: "/scan" },
+  { name: "History", href: "#", isHistory: true },
   { name: "About", href: "/about" },
 ];
 
@@ -50,17 +50,27 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-accent-green",
-                  pathname === link.href ? "text-accent-green" : "text-text-secondary"
-                )}
-              >
-                {link.name}
-              </Link>
+            {navLinks.map((link: any) => (
+              link.isHistory ? (
+                <button
+                  key={link.name}
+                  onClick={() => setIsHistoryOpen(true)}
+                  className="text-sm font-medium transition-colors hover:text-accent-green text-text-secondary"
+                >
+                  {link.name}
+                </button>
+              ) : (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-accent-green",
+                    pathname === link.href ? "text-accent-green" : "text-text-secondary"
+                  )}
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
           </nav>
 

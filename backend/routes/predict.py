@@ -9,7 +9,7 @@ from config import settings
 
 router = APIRouter()
 
-@router.post("/", response_model=PredictionResponse)
+@router.post("", response_model=PredictionResponse)
 async def predict(request: Request, file: UploadFile = File(...)):
     """
     Predict skin cancer class from image.

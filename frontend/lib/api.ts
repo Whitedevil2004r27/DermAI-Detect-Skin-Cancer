@@ -15,7 +15,7 @@ const apiClient = axios.create({
 export const predictImage = async (file: File): Promise<PredictionResponse> => {
   const formData = new FormData();
   formData.append("file", file);
-  const response = await apiClient.post<PredictionResponse>("/api/predict/", formData);
+  const response = await apiClient.post<PredictionResponse>("/api/predict", formData);
   return response.data;
 };
 
@@ -24,7 +24,7 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
   formData.append("file", file);
   if (targetClass) formData.append("target_class", targetClass);
   
-  const response = await apiClient.post("/api/heatmap/", formData, {
+  const response = await apiClient.post("/api/heatmap", formData, {
     responseType: "blob",
   });
   
@@ -32,6 +32,6 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
 };
 
 export const checkHealth = async () => {
-  const response = await axios.get(`${API_BASE}/health/`);
+  const response = await axios.get(`${API_BASE}/health`);
   return response.data;
 };

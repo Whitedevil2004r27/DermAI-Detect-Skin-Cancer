@@ -9,7 +9,7 @@ from config import settings
 
 router = APIRouter()
 
-@router.post("/")
+@router.post("")
 async def get_heatmap(request: Request, file: UploadFile = File(...), target_class: str = Form(None)):
     """
     Returns Grad-CAM heatmap as a PNG image stream.

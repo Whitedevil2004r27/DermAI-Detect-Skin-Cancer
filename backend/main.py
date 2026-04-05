@@ -23,7 +23,7 @@ app = FastAPI(
     title="DermAI — Skin Cancer Detection API",
     description="Early detection of skin cancer using EfficientNet-B7 and Grad-CAM explainability.",
     version="1.0.0",
-    redirect_slashes=True,
+    redirect_slashes=False,
     lifespan=lifespan
 )
 

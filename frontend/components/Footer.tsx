@@ -25,10 +25,10 @@ export default function Footer() {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider text-text-muted">Explore</h3>
               <ul className="mt-4 space-y-3">
-                {["Home", "Result", "How It Works", "About"].map((item) => (
+                {["Home", "Scan", "About"].map((item) => (
                   <li key={item}>
                     <Link
-                      href={item === "Home" ? "/" : `/${item.toLowerCase().replace(/ /g, "-")}`}
+                      href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                       className="text-sm text-text-secondary transition-colors hover:text-accent-green"
                     >
                       {item}
