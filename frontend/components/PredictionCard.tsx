@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { formatConfidence, getRiskColor } from "@/lib/utils";
+import { formatConfidence } from "@/lib/utils";
 import RiskBadge from "./RiskBadge";
 import { Activity, ShieldCheck } from "lucide-react";
 

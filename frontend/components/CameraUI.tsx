@@ -3,8 +3,8 @@
 import { useRef, useState, useCallback } from "react";
 import Webcam from "react-webcam";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, RefreshCcw, X, Check, Zap, Info } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { RefreshCcw, X, Check, Info } from "lucide-react";
+import Image from "next/image";
 
 interface CameraUIProps {
   isOpen: boolean;
@@ -113,10 +113,11 @@ export default function CameraUI({ isOpen, onClose, onCapture }: CameraUIProps) 
               </>
             ) : (
               <div className="relative h-full w-full">
-                <img
+                <Image
                   src={imgData}
-                  alt="Captured"
-                  className="h-full w-full object-cover"
+                  alt="Captured skin lesion"
+                  fill
+                  className="object-cover"
                 />
                 <div className="absolute bottom-12 left-0 right-0 flex items-center justify-center space-x-6">
                   <button

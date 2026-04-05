@@ -1,4 +1,6 @@
-export const CANCER_INFO: Record<string, any> = {
+import { CancerInfo } from "@/types/prediction";
+
+export const CANCER_INFO: Record<string, CancerInfo> = {
   mel: {
     label: "Melanoma",
     scientific_name: "Malignant Melanoma",

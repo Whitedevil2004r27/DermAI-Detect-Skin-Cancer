@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Maximize2, Layers, Info } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Layers, Info } from "lucide-react";
 
 interface HeatmapOverlayProps {
   originalImage: string;
@@ -99,7 +98,7 @@ export default function HeatmapOverlay({
       <div className="flex items-start space-x-3 rounded-xl border border-accent-purple/20 bg-accent-purple/5 p-4">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-purple" />
         <p className="text-xs leading-5 text-text-secondary">
-          Highlighted regions (red/yellow) indicate areas that significantly influenced the AI's diagnosis. 
+          Highlighted regions (red/yellow) indicate areas that significantly influenced the AI&apos;s diagnosis. 
           Use the <strong>Overlay</strong> mode for precise structural alignment with the lesion morphology.
         </p>
       </div>

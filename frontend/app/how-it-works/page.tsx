@@ -125,7 +125,7 @@ export default function HowItWorksPage() {
            </div>
 
            <div className="rounded-3xl bg-black/50 border border-border-subtle p-10 font-mono text-[11px] leading-7 text-accent-green/60 shadow-inner">
-<span className="text-text-muted italic">// Abstract Diagnostic Logic (Simplified)</span>
+{/* Abstract Diagnostic Logic (Simplified) */}
 <br />
 <span className="text-accent-purple">async function</span> <span className="text-white">RunAnalysis</span>(pixel_buffer) &#123;
 <br />
@@ -135,7 +135,7 @@ export default function HowItWorksPage() {
 <br />
 &nbsp;&nbsp;
 <br />
-&nbsp;&nbsp;<span className="text-text-muted">// Generate visual attribution</span>
+&nbsp;&nbsp;{/* Generate visual attribution */}
 <br />
 &nbsp;&nbsp;<span className="text-accent-purple">const</span> heatmap = GradCAM.Generate(attention, logits);
 <br />

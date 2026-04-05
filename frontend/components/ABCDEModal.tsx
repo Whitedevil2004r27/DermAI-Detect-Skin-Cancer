@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, ChevronRight, ChevronLeft, AlertCircle } from "lucide-react";
+import { X, Check, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ABCDEModalProps {

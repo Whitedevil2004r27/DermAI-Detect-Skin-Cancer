@@ -2,8 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
-import { Activity, ShieldCheck, Microscope, Fingerprint, Search } from "lucide-react";
-import Image from "next/image";
+import { Activity, ShieldCheck, Fingerprint } from "lucide-react";
 
 export default function LoginPage() {
   return (

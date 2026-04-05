@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Trash2, Calendar, ChevronRight, Clock } from "lucide-react";
+import { X, Trash2, Calendar, Clock } from "lucide-react";
 import { HistoryEntry } from "@/hooks/useHistory";
-import { format } from "date-fns";
+import Image from "next/image";
 
 interface HistoryDrawerProps {
   isOpen: boolean;
@@ -83,10 +83,11 @@ export default function HistoryDrawer({
                         onClick={() => onSelect(entry)}
                       >
                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-white/10">
-                          <img
+                          <Image
                             src={entry.image}
                             alt="Scan"
-                            className="h-full w-full object-cover"
+                            fill
+                            className="object-cover"
                           />
                         </div>
 

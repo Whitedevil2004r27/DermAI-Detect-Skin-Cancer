@@ -55,9 +55,10 @@ export default function HomePage() {
         router.push(`/result/${newId}`);
       };
       reader.readAsDataURL(file);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.response?.data?.detail || "Analysis failed. Ensure the backend is running.");
+      const errorMessage = (err as any).response?.data?.detail || "Analysis failed. Ensure the backend is running.";
+      setError(errorMessage);
       setIsAnalyzing(false);
     }
   };
@@ -252,7 +253,7 @@ export default function HomePage() {
       <ABCDEModal 
         isOpen={isAuditOpen} 
         onClose={() => setIsAuditOpen(false)} 
-        onComplete={(score) => {
+        onComplete={() => {
           // We can show a toast or just open the history
           setIsAuditOpen(false);
         }}
