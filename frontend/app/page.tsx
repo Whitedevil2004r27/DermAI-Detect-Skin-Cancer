@@ -20,9 +20,11 @@ import {
 import { cn } from "@/lib/utils";
 import CameraUI from "@/components/CameraUI";
 import ABCDEModal from "@/components/ABCDEModal";
+import { useHistory } from "@/hooks/useHistory";
 
 export default function HomePage() {
   const router = useRouter();
+  const { addToHistory } = useHistory();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -43,12 +45,14 @@ export default function HomePage() {
       }
 
       const prediction = await predictImage(file);
-      sessionStorage.setItem("last_prediction", JSON.stringify(prediction));
       
       const reader = new FileReader();
       reader.onloadend = () => {
-        sessionStorage.setItem("last_image", reader.result as string);
-        router.push("/result");
+        const base64 = reader.result as string;
+        // Save to history and get unique ID
+        const newId = addToHistory(prediction, base64);
+        // Redirect to specific result page
+        router.push(`/result/${newId}`);
       };
       reader.readAsDataURL(file);
     } catch (err: any) {

@@ -7,7 +7,7 @@ fi
 
 # Start FastAPI Backend on port 8000
 echo "Starting FastAPI Backend..."
-python backend/main.py &
+PORT=8000 python backend/main.py &
 
 # Wait for backend to be ready
 echo "Waiting for backend to start..."

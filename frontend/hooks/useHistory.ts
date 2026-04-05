@@ -50,5 +50,9 @@ export const useHistory = () => {
     localStorage.removeItem(HISTORY_KEY);
   };
 
-  return { history, addToHistory, removeFromHistory, clearHistory };
+  const getEntryById = (id: string): HistoryEntry | undefined => {
+    return history.find((entry) => entry.id === id);
+  };
+
+  return { history, addToHistory, removeFromHistory, clearHistory, getEntryById };
 };

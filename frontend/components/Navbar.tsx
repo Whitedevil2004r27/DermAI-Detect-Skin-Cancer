@@ -36,7 +36,10 @@ export default function Navbar() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-border-subtle bg-bg-primary/80 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between mx-auto px-4">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link 
+            href={history.length > 0 ? `/result/${history[0].id}` : "/"} 
+            className="flex items-center space-x-2"
+          >
             <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-accent-green/10">
               <div className="absolute inset-0 animate-pulse-soft rounded-lg bg-accent-green/20 blur-sm" />
               <Activity className="h-5 w-5 text-accent-green" />
