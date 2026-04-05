@@ -22,8 +22,9 @@ export const predictImage = async (file: File): Promise<PredictionResponse> => {
   try {
     const response = await apiClient.post<PredictionResponse>("/api/predict", formData);
     return response.data;
-  } catch (error: any) {
-    console.error("[DermAI] Prediction Error:", error.response?.status, error.message, error.response?.data);
+  } catch (error: unknown) {
+    const err = error as any;
+    console.error("[DermAI] Prediction Error:", err.response?.status, err.message, err.response?.data);
     throw error;
   }
 };
@@ -38,8 +39,9 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
       responseType: "blob",
     });
     return URL.createObjectURL(response.data);
-  } catch (error: any) {
-    console.error("[DermAI] Heatmap Error:", error.response?.status, error.message);
+  } catch (error: unknown) {
+    const err = error as any;
+    console.error("[DermAI] Heatmap Error:", err.response?.status, err.message);
     throw error;
   }
 };
@@ -48,8 +50,9 @@ export const checkHealth = async () => {
   try {
     const response = await axios.get(`${API_BASE}/health`);
     return response.data;
-  } catch (error: any) {
-    console.error("[DermAI] Health Check Failed:", error.message);
+  } catch (error: unknown) {
+    const err = error as any;
+    console.error("[DermAI] Health Check Failed:", err.message);
     return { status: "offline" };
   }
 };
