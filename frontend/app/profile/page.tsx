@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { User, Mail, ShieldCheck, Activity, Clock, FileText, Settings, LogOut } from "lucide-react";
+import { Mail, ShieldCheck, Activity, Clock, FileText, Settings, LogOut } from "lucide-react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";

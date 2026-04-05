@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Activity, ShieldAlert, ShieldCheck } from "lucide-react";
+import { Activity, ShieldAlert } from "lucide-react";
 
 export default function Footer() {
   return (
