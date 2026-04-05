@@ -15,8 +15,16 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        source: "/api/predict",
+        destination: `${BACKEND_URL}/api/predict/`,
+      },
+      {
         source: "/api/predict/:path*",
         destination: `${BACKEND_URL}/api/predict/:path*`,
+      },
+      {
+        source: "/api/heatmap",
+        destination: `${BACKEND_URL}/api/heatmap/`,
       },
       {
         source: "/api/heatmap/:path*",
