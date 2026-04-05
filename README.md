@@ -11,6 +11,9 @@ license: mit
 
 # 🧬 DermAI — Unified Skin Cancer Detection System
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-success?style=for-the-badge&logo=vercel)](https://derm-ai-detect-skin-cancer.vercel.app/)
+[![Hugging%20Face](https://img.shields.io/badge/Model%20Host-Hugging%20Face-yellow?style=for-the-badge&logo=huggingface)](https://huggingface.co/spaces/ravikumar227/dermai-full-system)
+
 DermAI is an institutional-grade medical AI platform for the early detection of skin lesions. This repository contains the **Unified Monolith** version of the system, designed to run both the high-performance AI backend and the premium Next.js frontend within a single high-memory container.
 
 Using an **EfficientNet-B7** neural network trained on the **HAM10000** dataset, DermAI provides rapid classification across 7 skin lesion categories, accompanied by **Grad-CAM heatmaps** for clinical explainability.
