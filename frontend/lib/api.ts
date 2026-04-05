@@ -6,6 +6,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 const apiClient = axios.create({
   baseURL: API_BASE,
+  timeout: 60000, // 60 seconds to allow for deep learning inference
   headers: {
     "Content-Type": "multipart/form-data",
   },

@@ -11,7 +11,11 @@ class Settings(BaseSettings):
     
     # API Settings
     MAX_FILE_SIZE_MB: int = 10
-    CORS_ORIGINS: List[str] = ["*"]
+    CORS_ORIGINS: List[str] = [
+        "*", 
+        "https://derm-ai-detect-skin-cancer.vercel.app",
+        "http://localhost:3000"
+    ]
     
     # Class Settings (HAM10000)
     CLASS_NAMES: List[str] = ["akiec", "bcc", "bkl", "df", "mel", "nv", "vasc"]
