@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Activity, ShieldAlert } from "lucide-react";
+import { Activity, ShieldAlert, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -40,13 +40,17 @@ export default function Footer() {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider text-text-muted">Legal</h3>
               <ul className="mt-4 space-y-3">
-                {["Terms of Service", "Privacy Policy", "Medical Disclaimer"].map((item) => (
-                  <li key={item}>
+                {[
+                  { name: "Terms of Service", href: "/terms" },
+                  { name: "Privacy Policy", href: "/privacy" },
+                  { name: "Medical Disclaimer", href: "/disclaimer" },
+                ].map((item) => (
+                  <li key={item.name}>
                     <Link
-                      href="#"
+                      href={item.href}
                       className="text-sm text-text-secondary transition-colors hover:text-accent-green"
                     >
-                      {item}
+                      {item.name}
                     </Link>
                   </li>
                 ))}

@@ -114,10 +114,13 @@ export default function Navbar() {
                          <p className="text-xs font-bold text-white truncate">{session.user?.email}</p>
                       </div>
                       <div className="p-1 space-y-1">
-                        <button className="flex w-full items-center space-x-3 rounded-2xl px-4 py-3 text-xs font-medium text-text-secondary hover:bg-bg-hover hover:text-white transition-colors">
+                        <Link 
+                          href="/profile"
+                          className="flex w-full items-center space-x-3 rounded-2xl px-4 py-3 text-xs font-medium text-text-secondary hover:bg-bg-hover hover:text-white transition-colors"
+                        >
                           <User className="h-4 w-4" />
                           <span>Clinical Profile</span>
-                        </button>
+                        </Link>
                         <button
                           onClick={() => signOut()}
                           className="flex w-full items-center space-x-3 rounded-2xl px-4 py-3 text-xs font-medium text-accent-red hover:bg-accent-red/10 transition-colors"
