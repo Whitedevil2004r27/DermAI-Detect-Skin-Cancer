@@ -1,5 +1,5 @@
 # --- STAGE 1: Build the Next.js Frontend ---
-FROM node:18-alpine AS builder-frontend
+FROM node:20-alpine AS builder-frontend
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
