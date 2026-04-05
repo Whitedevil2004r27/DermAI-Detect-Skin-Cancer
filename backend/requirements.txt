@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 fastapi
 uvicorn
 torch
@@ -9,3 +10,4 @@ pandas
 python-multipart
 scikit-learn
 Pillow
+aiofiles
