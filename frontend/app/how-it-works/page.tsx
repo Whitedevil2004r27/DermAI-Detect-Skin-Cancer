@@ -38,7 +38,7 @@ const pipelineSteps = [
   },
   {
     title: "Explainability Layer",
-    desc: "Grad-CAM generates gradient-weighted activation maps to visualize exactly which pixels influenced the model's final prediction.",
+    desc: "Grad-CAM generates gradient-weighted activation maps to visualize exactly which pixels influenced the model&apos;s final prediction.",
     icon: Eye,
     color: "bg-accent-yellow/10 text-accent-yellow border-accent-yellow/20"
   }
@@ -117,7 +117,7 @@ export default function HowItWorksPage() {
                  <div>
                    <h4 className="text-sm font-black text-white uppercase tracking-widest mb-2 italic">Institutional Trust</h4>
                    <p className="text-xs font-medium text-text-secondary leading-relaxed">
-                     By visualizing gradients, clinicians can verify that the model isn't overfitting to artifacts like surgical markers or stray hairs.
+                     By visualizing gradients, clinicians can verify that the model isn&apos;t overfitting to artifacts like surgical markers or stray hairs.
                    </p>
                  </div>
                </div>

@@ -57,7 +57,13 @@ export default function HomePage() {
       reader.readAsDataURL(file);
     } catch (err: unknown) {
       console.error(err);
-      const errorMessage = (err as any).response?.data?.detail || "Analysis failed. Ensure the backend is running.";
+      let errorMessage = "Analysis failed. Ensure the backend is running.";
+      if (err && typeof err === "object" && "response" in err) {
+        const errorWithResponse = err as { response?: { data?: { detail?: string } } };
+        if (errorWithResponse.response?.data?.detail) {
+          errorMessage = errorWithResponse.response.data.detail;
+        }
+      }
       setError(errorMessage);
       setIsAnalyzing(false);
     }
