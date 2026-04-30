@@ -2,7 +2,7 @@ import axios from "axios";
 import { PredictionResponse } from "@/types/prediction";
 
 // Relative URL for unified hosting (same origin)
-const API_BASE = "http://localhost:8000";
+const API_BASE = "http://127.0.0.1:7860";
 
 console.log(`[DermAI] API connected to: ${API_BASE}`);
 
