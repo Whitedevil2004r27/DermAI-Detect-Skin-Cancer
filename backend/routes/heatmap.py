@@ -38,8 +38,13 @@ async def get_heatmap(request: Request, file: UploadFile = File(...), target_cla
             pass # Use auto-detection if target class is invalid
             
     # 5. Generate Heatmap
-    # model must be in eval mode for Grad-CAM
-    heatmap_pil = generate_heatmap(model, image_tensor, target_class=target_idx)
+    try:
+        heatmap_pil = generate_heatmap(model, image_tensor, target_class=target_idx)
+    except Exception as e:
+        import traceback
+        print(f"CRITICAL: Heatmap generation failed: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Heatmap engine error: {str(e)}")
     
     # 6. Stream Response
     img_byte_arr = io.BytesIO()

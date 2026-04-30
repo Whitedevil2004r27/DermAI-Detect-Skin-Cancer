@@ -2,21 +2,13 @@ import axios from "axios";
 import { PredictionResponse } from "@/types/prediction";
 
 // Relative URL for unified hosting (same origin)
-// Direct Hugging Face Space URL to bypass Vercel's 10s proxy timeout
-const HF_SPACE_URL = "https://ravikumar227-dermai-full-system.hf.space";
-let API_BASE = process.env.NEXT_PUBLIC_API_URL || HF_SPACE_URL;
-
-// Force HTTPS for production to avoid Mixed Content errors on Vercel
-// But allow HTTP for local development (localhost/127.0.0.1)
-if (API_BASE.startsWith("http://") && !API_BASE.includes("localhost") && !API_BASE.includes("127.0.0.1")) {
-  API_BASE = API_BASE.replace("http://", "https://");
-}
+const API_BASE = "http://localhost:8000";
 
 console.log(`[DermAI] API connected to: ${API_BASE}`);
 
 const apiClient = axios.create({
   baseURL: API_BASE,
-  timeout: 90000, // 90 seconds for deep learning + cold starts
+  timeout: 90000, 
   headers: {
     "Content-Type": "multipart/form-data",
   },
@@ -34,7 +26,7 @@ export const predictImage = async (file: File): Promise<PredictionResponse> => {
   const formData = new FormData();
   formData.append("file", file);
   try {
-    const response = await apiClient.post<PredictionResponse>("/api/predict/", formData);
+    const response = await apiClient.post<PredictionResponse>("/api/predict", formData);
     return response.data;
   } catch (error: unknown) {
     const err = error as AxiosErrorLike;
@@ -49,7 +41,7 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
   if (targetClass) formData.append("target_class", targetClass);
 
   try {
-    const response = await apiClient.post("/api/heatmap/", formData, {
+    const response = await apiClient.post("/api/heatmap", formData, {
       responseType: "blob",
     });
     return URL.createObjectURL(response.data);
@@ -62,7 +54,7 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
 
 export const checkHealth = async () => {
   try {
-    const response = await axios.get(`${API_BASE}/health/`);
+    const response = await axios.get(`${API_BASE}/health`);
     return response.data;
   } catch (error: unknown) {
     const err = error as AxiosErrorLike;
