@@ -38,7 +38,7 @@ export const predictImage = async (file: File): Promise<PredictionResponse> => {
   const formData = new FormData();
   formData.append("file", file);
   try {
-    const response = await apiClient.post<PredictionResponse>("/api/predict", formData);
+    const response = await apiClient.post<PredictionResponse>("/api/predict/", formData);
     return response.data;
   } catch (error: unknown) {
     const err = error as AxiosErrorLike;
@@ -53,7 +53,7 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
   if (targetClass) formData.append("target_class", targetClass);
 
   try {
-    const response = await apiClient.post("/api/heatmap", formData, {
+    const response = await apiClient.post("/api/heatmap/", formData, {
       responseType: "blob",
     });
     return URL.createObjectURL(response.data);
@@ -66,7 +66,7 @@ export const getHeatmap = async (file: File, targetClass?: string): Promise<stri
 
 export const checkHealth = async () => {
   try {
-    const response = await axios.get(`${API_BASE}/health`);
+    const response = await axios.get(`${API_BASE}/health/`);
     return response.data;
   } catch (error: unknown) {
     const err = error as AxiosErrorLike;
